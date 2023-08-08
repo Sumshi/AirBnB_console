@@ -4,7 +4,7 @@
 
 from uuid import uuid4
 from datetime import date, datetime
-# import models
+import models
 
 
 class BaseModel:
@@ -23,7 +23,8 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = self.created_at
-            # models.storage.new(self)
+            models.storage.new(self)
+            models.storage.save()
 
     def __str__(self):
         class_name = self.__class__.__name__
@@ -32,7 +33,7 @@ class BaseModel:
     def save(self):
         """updates up_dated with current datetime"""
         self.updated_at = datetime.now()
-        # models.storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all key/values of __dict__"""

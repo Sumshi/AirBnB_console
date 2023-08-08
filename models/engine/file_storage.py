@@ -3,6 +3,9 @@
 
 import json
 from models.base_model import BaseModel
+from models.user import User
+
+
 class FileStorage:
     """
     defines file storage class that serializes instances to a JSON file
@@ -39,6 +42,15 @@ class FileStorage:
         deserializes the JSON file to __objects
         only if the JSON file (__file_path) exists
         """
+        clslist = {
+            'BaseModel': BaseModel,
+            'State': State,
+            'City': City,
+            'Amenity': Amenity,
+            'Place': Place,
+            'Review': Review,
+            'User': User
+        }
         try:
             with open(self.__file_path, "r") as file:
                 obj_dict = json.load(file)
