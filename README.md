@@ -1,10 +1,11 @@
-# This is a team project for Airbnb website this part is the console part of it
+# This is a team project for Airbnb website this part is the console part of it.
+# The project is part of the ALX curriculum for SWE
 
 # AirBnB_clone - Console that's in charge of managing the models in a common AirBnB application.
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 ![Console](https://github.com/daorejuela1/AirBnB_clone/blob/master/images/console_airbnb.png)
-"Structure of the project"
+"Structure of the AirBnb project"
 
 `Storage engine -> Json file.`
 `Console -> cmd with python library cmd.Cmd`

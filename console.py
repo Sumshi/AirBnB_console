@@ -19,7 +19,7 @@ from shlex import shlex
 class HBNBCommand(cmd.Cmd):
     """ hbnb shell """
     prompt = '(hbnb) '
-    clslist = {'BaseModel': BaseModel, 'State': State, 'City': City,
+    classes = {'BaseModel': BaseModel, 'State': State, 'City': City,
                'Amenity': Amenity, 'Place': Place, 'Review': Review,
                'User': User}
 
@@ -27,18 +27,28 @@ class HBNBCommand(cmd.Cmd):
         """empty line"""
         pass
 
-    def do_create(self, clsname=None):
-        """Creates a new instance of BaseModel, saves it and prints the id"""
-        if not clsname:
-            print('** class name missing **')
-        elif not self.clslist.get(clsname):
-            print('** class doesn\'t exist **')
-        else:
-            obj = self.clslist[clsname]()
-            models.storage.save()
-            print(obj.id)
+    def do_quit(self, arg):
+        """Quit command to exit the program
+        """
+        return True
 
-    def do_show(self, arg):
+    def do_EOF(self, arg):
+        """EOF to exit the program
+        """
+        return True
+
+    def do_create(self, arg):  # creates a new object or record
+        """Creates a new instance of BaseModel, saves it and prints the id"""
+        args = arg.split()  # splits a string into a list of substrings
+        if len(args) == 0:  # means no class name was provided
+            print("** class name missing **")
+        elif args[0] not in self.classes:
+            print("** class doesn't exist **")
+        else:
+            new_object = eval(f"{args[0]}")()  # creates an instance
+            print(new_object.id)  # prints id attribute of the class
+
+    def do_show(self, arg):  # displays information about an object
         """Show instance based on id"""
         clsname, objid = None, None
         args = arg.split(' ')
@@ -133,16 +143,6 @@ class HBNBCommand(cmd.Cmd):
                 setattr(obj, attrname, attrval)
                 obj.updated_at = updatetime
                 models.storage.save()
-
-    def do_quit(self, arg):
-        """Quit command to exit the program
-        """
-        return True
-
-    def do_EOF(self, arg):
-        """EOF to exit the program
-        """
-        return True
 
     def default(self, line):
         """handle class commands"""
