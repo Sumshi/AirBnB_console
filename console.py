@@ -5,6 +5,7 @@
 import cmd
 import models
 from models.base_model import BaseModel
+from models import storage
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
@@ -50,25 +51,17 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):  # displays information about an object
         """Show instance based on id"""
-        clsname, objid = None, None
-        args = arg.split(' ')
-        if len(args) > 0:
-            clsname = args[0]
-        if len(args) > 1:
-            objid = args[1]
-        if not clsname:
-            print('** class name missing **')
-        elif not objid:
-            print('** instance id missing **')
-        elif not self.clslist.get(clsname):
+        args = arg.split()
+        if len(args) == 0:
+            print("** class name missing **")
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
+        elif len(args) == 1:
+            print("** instance id missing **")
+        elif f"{args[0]}.{args[1]}" not in storage.all():
+            print("** no instance found **")
         else:
-            k = clsname + "." + objid
-            obj = models.storage.all().get(k)
-            if not obj:
-                print('** no instance found **')
-            else:
-                print(obj)
+            print(storage.all()[f"{args[0]}.{args[1]}"])
 
     def do_destroy(self, arg):
         """destroy instance based on id
